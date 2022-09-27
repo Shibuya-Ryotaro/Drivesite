@@ -1,0 +1,48 @@
+@charset "UTF-8"; /* 文字コードの指定 */
+@import url("contact.css");
+
+.confirm_box{
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    margin: 30px 0 10px 0;
+}
+
+.post_button{
+    width: 49%;
+}
+
+#back_button{
+    width: 49%;
+    position: relative;
+    bottom: 50px;
+    left: 50%;
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    margin-left: 10px;
+    background-color: white;
+    font-size: 1.2rem;
+    padding: 9px 0;
+    border: 0;
+    border-radius: 8px;
+    letter-spacing: 20px;
+    padding-left: 10px;
+    color: #066;
+    border: 2px solid #066;
+}
+
+.submit{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.confirm_value{
+    min-height: 20px;
+    font-size: 18px;
+    word-break: break-all;
+}
+
+#contact-back-form{
+    height: 0;
+}

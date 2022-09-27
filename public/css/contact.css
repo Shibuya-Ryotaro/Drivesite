@@ -1,0 +1,102 @@
+@charset "UTF-8"; /* 文字コードの指定 */
+@import url("style.css");
+
+#header{
+    background-image: none;
+    min-height: auto;
+    background-position: center;
+    position: relative;
+    z-index: 0;
+}
+
+nav{
+    background-color: black;
+    opacity: 0.8;
+}
+
+#main_title{
+    display: none;
+}
+
+.form_boxs{
+    width: 60%;
+    margin: 5% auto;
+    border-radius: 16px;
+    border: 1px solid #ccc;
+}
+
+.nav_content li{
+    font-size: 12rem;
+}
+
+
+.create{
+    font-size: 12rem;
+}
+
+.form_boxs h1{
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.text_border{
+    background: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), to(#eaeaea));
+    border-top: 1px solid #666;
+    border-bottom: 1px solid #666;
+    padding: 1%;
+    margin: 1% 0;
+}
+
+#form_text{
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.form_box{
+    padding: 3%;
+}
+
+.fixed{
+    position: static;
+    animation-name: none;
+    background-color: rgba(0, 0, 0, 1);
+}
+
+.red{
+    color: red;
+}
+
+textarea{
+    font-size: 20px;
+    padding: 5px 2px;
+    border: 1px solid rgb(160, 160, 160);
+    border-radius: 8px;
+    resize: none;
+    width: 100%;
+    height: 300px;
+    margin-top: 10px;
+}
+
+.error{
+    color: red;
+    font-size: 14px;
+}
+
+/* record_list.php */
+table{
+    text-align: center;
+    margin: 50px auto;
+    width: 90%;
+}
+
+th{
+    background-color: rgb(229, 229, 229);
+}
+
+th,td{
+    padding: 10px 10px;
+    border: 1px solid rgb(160, 160, 160);
+}
