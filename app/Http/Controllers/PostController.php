@@ -8,13 +8,16 @@ use App\Models\User;
 use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Models\MyList;
-;
+use App\Models\MyList;;
 
 class PostController extends Controller
 {
-    public function index(){
-        $posts = Post::all(); //全て検索
+    public function index()
+    {
+        $posts = DB::table('posts')
+            ->join('users', 'posts.user_id', '=', 'users.id')
+            ->select('posts.*', 'users.name')
+            ->get();
         return view('posts/index', compact('posts'));
     }
 
@@ -33,93 +36,79 @@ class PostController extends Controller
         $post->title = $request->title;
         $post->user_id = \Auth::user()->id;
         $post->image = $request->file('image');
-        if($post->image){
-            $filename=request()->file('image')->getClientOriginalName();
-            $post['image']=request('image')->storeAs('public/images', $filename);
+        if ($post->image) {
+            $filename = request()->file('image')->getClientOriginalName();
+            $post['image'] = request('image')->storeAs('public/images', $filename);
         }
         $post->save();
-    
- 
+
+
 
         return redirect('/');
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $post = Post::find($id); //メインキーを検索
-        $comments = Comment::where('post_id', $id)->get();
 
-        //データベースをくっつける
-        // $comments['original']
-        // = DB::table('comments')
-        //             ->join('users','comments.user_id','=','users.id')
-        //             ->where('comments.post_id','=',$id)              
-        //             ->get(); //全ての取得
-    
-        // $user = \Auth::user()->id;//ログイン済みかチェック
-        // $comments = DB::query()
-        // ->select([
-        //     'users.name'
-        // ])
-        // ->from('users')
-        // ->leftjoin('posts', function($join) use($user) {
-        //     $join->on('users.id', '=', 'posts.user_id')
-        //          ->where('posts.user_id', '=', $user);
-        // })
-        // ->get();
+        $mylistCount = DB::table('my_lists')
 
-        // $comments = DB::table('comments')
-        // ->join('users', 'comments.user_id', '=', 'users.id')
-        // ->join('posts', 'comments.post_id', '=', 'posts.id')        
-        // ->select('users.name', 'posts.title', 'posts.image')
-        // ->first();
-        
+            ->select('my_lists.id')
+            ->where('my_lists.post_id', '=', $id)
+            ->count();
 
+        $comments = DB::table('comments')
+            ->join('users', 'comments.user_id', '=', 'users.id')
+            ->join('posts', 'comments.post_id', '=', 'posts.id')
+            ->select('users.name', 'comments.comment', 'comments.created_at', 'comments.user_id', 'comments.id')
+            ->where('comments.post_id', '=', $id)
+            ->get();
 
-       $mylists = MyList::where('post_id', $id)->where('user_id', \Auth::user()->id)->get();
-        // // dd(count($mylists));
-        if(count($mylists) <= 1){
-            $mylist = false;
-        } else {
-            $mylist = $mylists[0]->id;
+        $mylist = '';
+        if (\Auth::user() != null) {
+            $mylists = MyList::where('post_id', $id)->where('user_id', \Auth::user()->id)->get();
+            // // dd(count($mylists));
+            if (count($mylists) <= 1) {
+                $mylist = false;
+            } else {
+                $mylist = $mylists[0]->id;
+            }
         }
-        
 
-
-
-                    // $json = json_encode( $comments );
-                    // $decoded_data = json_decode( $json, true );
-
-        return view('posts/show', compact('post','comments','mylist'));
+        return view('posts/show', compact('post', 'comments', 'mylist', 'mylistCount'));
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $post = Post::find($id);
-        if(is_null($post)){
-            \Session::flash('err_msg','データがありません。');
+        if (is_null($post)) {
+            \Session::flash('err_msg', 'データがありません。');
             return redirect('/');
         }
         return view('posts/edit', compact('post'));
     }
 
-    public function update(Request $request){
+    public function update(Request $request)
+    {
         $inputs = $request->all();
 
         $post = Post::find($inputs['id']);
         $post->fill([
-            'title' =>$inputs['title'],
-            'body' =>$inputs['body'],
+            'title' => $inputs['title'],
+            'body' => $inputs['body'],
         ]);
-        if($post->image){
-            $filename=request()->file('image')->getClientOriginalName();
-            $post['image']=request('image')->storeAs('public/images', $filename);
+        if ($post->image) {
+            $filename = request()->file('image')->getClientOriginalName();
+            $post['image'] = request('image')->storeAs('public/images', $filename);
         }
         $post->user_id = \Auth::user()->id;
-        
+
         $post->save();
         return redirect('/');
     }
-    
-    public function delete($id){
+
+    public function delete($id)
+    {
         Post::where('id', $id)->delete();
         return redirect('/');
     }

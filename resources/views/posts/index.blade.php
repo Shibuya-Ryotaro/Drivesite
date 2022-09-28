@@ -35,44 +35,44 @@
                     @endif      -->
         <div class="card-deck">
 
-        <div class="container">
-       
-  <div class="row">
-  @foreach($posts as $post)
-    <div class="col-4">
+          <div class="container">
 
-          <div class="col-md-4 mt-5">
+            <div class="row">
+              @foreach($posts as $post)
+              <div class="col-4">
 
-            <div class="card">
-              <!-- <img src="{{ Storage::url($post['image'])}}" class="card-img-top" alt="..."height ="300px;" width="75%"  > -->
-              <img src="{{ Storage::url($post->image) }}" width="300%">
+                <div class="mt-5">
 
-              <div class="card-body">
-                <h5 class="card-title">
+                  <div class="card">
 
-                  <a href="{{ route('posts.show', $post['id']) }}">{{ $post['title'] }}</a>
-                  </a>
-                </h5>
+                    <img src="{{ Storage::url($post->image) }}" width="100%">
 
-                <p class="card-text"><small class="text-muted">{{$post['created_at']}}</small></p>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a href="{{ route('posts.show', $post->id) }}">{{ $post->title }}</a>
 
-                <p class="card-text">
 
-                </p>
+                      </h5>
+                      <p class="card-text"><small class="text-muted">投稿者：{{ $post->name }}</small></p>
+                      <p class="card-text"><small class="text-muted">{{$post->created_at}}</small></p>
+
+                      <p class="card-text">
+
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                </div>
 
               </div>
-
+              @endforeach
             </div>
 
           </div>
-       
-    </div>
-    @endforeach
-  </div>
 
-</div>
 
-          
         </div>
         </tbody>
         </table>

@@ -47,6 +47,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('posts/index','PostController@index')->name('posts.index');
 Route::get('posts/show/{id}','PostController@show')->name('posts.show');
+Route::post('posts/store', 'PostController@store')->name('posts.store');
 
 
 //ログインユーザーのみ
@@ -54,7 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
     //この中に以前の記事で書いたルーティングのコードを書いていく
     //例えば
     Route::get('posts', 'PostController@create')->name('posts.create');
-    Route::post('posts/store', 'PostController@store')->name('posts.store');
+
     Route::get('posts/edit/{id}','PostController@edit')->name('post.edit');
     Route::post('posts/update','PostController@update')->name('post.update');
     Route::post('posts/delete/{id}','PostController@delete')->name('post.delete');
