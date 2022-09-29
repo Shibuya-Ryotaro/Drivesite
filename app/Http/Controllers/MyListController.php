@@ -44,8 +44,15 @@ class MyListController extends Controller
         $post = Post::find($request->post_id); //メインキーを検索
         $comments = Comment::where('post_id', $request->post_id)->get();
 
+        
+        $mylistCount = DB::table('my_lists')
+
+        ->select('my_lists.id')
+        ->where('my_lists.post_id', '=', $request->post_id)
+        ->count();
+
         // return redirect()->route('posts.show',[$request->post_id]);
-        return view('posts/show', compact('mylist','post','comments'));
+        return view('posts/show', compact('mylist','post','comments','mylistCount'));
     }
 
 

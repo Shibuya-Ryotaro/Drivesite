@@ -51,12 +51,7 @@ class PostController extends Controller
     {
         $post = Post::find($id); //メインキーを検索
 
-        $mylistCount = DB::table('my_lists')
-
-            ->select('my_lists.id')
-            ->where('my_lists.post_id', '=', $id)
-            ->count();
-
+   
         $comments = DB::table('comments')
             ->join('users', 'comments.user_id', '=', 'users.id')
             ->join('posts', 'comments.post_id', '=', 'posts.id')
@@ -74,6 +69,13 @@ class PostController extends Controller
                 $mylist = $mylists[0]->id;
             }
         }
+
+
+        $mylistCount = DB::table('my_lists')
+
+        ->select('my_lists.id')
+        ->where('my_lists.post_id', '=', $id)
+        ->count();
 
         return view('posts/show', compact('post', 'comments', 'mylist', 'mylistCount'));
     }

@@ -44,9 +44,9 @@
                 <div class="mt-5">
 
                   <div class="card">
-
-                    <img src="{{ Storage::url($post->image) }}" width="100%">
-
+                    <div class="ratio ratio-4x3">
+                      <img src="{{ Storage::url($post->image) }}" class="">
+                    </div>
                     <div class="card-body">
                       <h5 class="card-title">
                         <a href="{{ route('posts.show', $post->id) }}">{{ $post->title }}</a>
