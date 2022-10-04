@@ -1,16 +1,49 @@
 <nav>
 
 
-    <ul id="nav_content">
+   
+    <div class='btn-toolbar' role="toolbar">
+            <div>
+                @guest
+        @if (Route::has('login'))
+                <li class="nav-item">
+            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+        </li>
+         @endif
+                
+        @if (Route::has('register'))
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+        </li>
+        @endif
+        @else
+        <li class="nav-item dropdown">
+            <a id="navbarDropdown" class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                ようこそ{{ Auth::user()->name }}さん
+            </a>
+
+            <div class="" aria-labelledby="navbarDropdown">
+                <a class="" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                    {{ __('ログアウト') }}
+                </a>
 
 
-
-    </ul>
-
-
-    <ul class="nav_content">
+                <!-- dropdown-item -->
+                
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </div>
+        </li>
+        @endguest
+               
+            </div>
+        </div>
+    </div>
+    <!-- <ul class="nav_content"> -->
         <!-- Authentication Links -->
-        @guest
+        <!-- @guest
         @if (Route::has('login'))
         <li class="nav-item">
             <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -39,7 +72,7 @@
                 </form>
             </div>
         </li>
-        @endguest
+        @endguest -->
     </ul>
 </nav>
 

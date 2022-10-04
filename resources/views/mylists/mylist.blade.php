@@ -3,10 +3,11 @@
 @section('content')
 
 
+<div class="row justify-content-center">
+<div class="col-8 mt-5">
+<div>myリスト</div>
 
-<p>myページ</p>
-
-<p>おすすめのドライブスポット・施設を投稿し共有しよう！</p>
+<div>おすすめのドライブスポット・施設を投稿し共有しよう！</div>
 
 
 
@@ -60,8 +61,8 @@
   </div>
 
 </div>
-
-
+</div>
+</div>
 
 
 @endsection

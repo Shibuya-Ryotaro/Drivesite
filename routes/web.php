@@ -48,6 +48,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('posts/index','PostController@index')->name('posts.index');
 Route::get('posts/show/{id}','PostController@show')->name('posts.show');
 Route::post('posts/store', 'PostController@store')->name('posts.store');
+Route::get('mylists/mypost','PostController@mypost')->name('mylists.mypost');
+
+Route::get('result', 'ResultController@currentLocation')->name('result.currentLocation');//グーグルマップス用
+
+
 
 
 //ログインユーザーのみ

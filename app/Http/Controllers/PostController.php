@@ -8,17 +8,33 @@ use App\Models\User;
 use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Models\MyList;;
+use App\Models\MyList;
+
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
     public function index()
     {
+        
         $posts = DB::table('posts')
             ->join('users', 'posts.user_id', '=', 'users.id')
             ->select('posts.*', 'users.name')
-            ->get();
-        return view('posts/index', compact('posts'));
+            ->orderBy('updated_at','desc')
+            ->simplePaginate($perPage = 6, $columns = ['*'], $pageName = 'posts');
+
+        
+        return view('posts/index',compact('posts'));
+    }
+
+    public function mypost()
+    {
+        $posts = DB::table('posts')
+            ->join('users', 'posts.user_id', '=', 'users.id')
+            ->select('posts.*', 'users.name')
+            ->where('posts.user_id','=',\Auth::user()->id)
+            ->simplePaginate($perPage = 6, $columns = ['*'], $pageName = 'posts');
+        return view('mylists/mypost', compact('posts'));
     }
 
 
@@ -30,21 +46,39 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
+        $validator =Validator::make($request->all(), [
+            'title' => ['required'],
+            'body' => ['required'],
+            'address' => ['required'],
+            'image' => ['required'],
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/posts')
+            ->withErrors($validator)
+            ->withInput();
+          } 
+
+
         $post = new Post;
 
         $post->body = $request->body;
         $post->title = $request->title;
         $post->user_id = \Auth::user()->id;
         $post->image = $request->file('image');
+        
+        $post->address = $request->address;
         if ($post->image) {
             $filename = request()->file('image')->getClientOriginalName();
             $post['image'] = request('image')->storeAs('public/images', $filename);
         }
+   
         $post->save();
 
+        
 
 
-        return redirect('/');
+        return redirect('posts/index')->with('flash_message', '投稿が完了しました');
     }
 
     public function show($id)
@@ -98,6 +132,7 @@ class PostController extends Controller
         $post->fill([
             'title' => $inputs['title'],
             'body' => $inputs['body'],
+            'address' => $inputs['address'],
         ]);
         if ($post->image) {
             $filename = request()->file('image')->getClientOriginalName();
@@ -106,7 +141,7 @@ class PostController extends Controller
         $post->user_id = \Auth::user()->id;
 
         $post->save();
-        return redirect('/');
+        return redirect('posts/index');
     }
 
     public function delete($id)

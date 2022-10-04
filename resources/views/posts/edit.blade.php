@@ -9,44 +9,43 @@
 
                 <div class="card-body">
                     @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
                     @endif
 
-                    <form enctype="multipart/form-data"  action="{{ route('post.update') }}" method="post">
+                    <form enctype="multipart/form-data" action="{{ route('post.update') }}" method="post">
                         {{ csrf_field() }}
                         <div class="form-group">
-                        <label for="exampleFormControlTextarea1">タイトル</label>
-                        <input type="hidden" name="id" value="{{ $post->id }}">
+                            <label for="exampleFormControlTextarea1">タイトル</label>
+                            <input type="hidden" name="id" value="{{ $post->id }}">
 
 
-                        <input class="form-control" id="exampleFormControlTextarea1" value="{{ $post->title }}" rows="3" name="title">
+                            <input class="form-control" id="exampleFormControlTextarea1" value="{{ $post->title }}" rows="3" name="title">
 
-                      </div>     
-                      <div class="form-group">
-                        <label for="exampleFormControlTextarea1">ファイル</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">ファイル</label>
 
-                          <div class="form-image_url">
-                          <input id= "image" type="file" name="image" accept="image/jpeg,image/png" value="$post['image']" > 
-                          </div>
-                      </div>          
-                      <div class="form-group">                 
+                            <div class="form-image_url">
+                                <input id="image" type="file" name="image" accept="image/jpeg,image/png" value="$post['image']">
+                            </div>
+                        </div>
 
-                      <div class="form-group">
-           
-                      
-                      </div>
-                      <div class="form-group">
-                      
+                        <label for="exampleFormControlTextarea1">撮影した住所</label>
+                        <input class="form-control" id="exampleFormControlTextarea1" value="{{ $post->address }}" rows="3" name="address">
 
 
-                      <label for="exampleFormControlTextarea1">本文</label>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" value="{{ $post->body }}"name="body">{{ $post->body }}</textarea>
-                    </div>
+                        <div class="form-group">
 
 
-                      <button type="submit" class="btn btn-primary">更新する</button>
+
+                            <label for="exampleFormControlTextarea1">本文</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" value="{{ $post->body }}" name="body">{{ $post->body }}</textarea>
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary">更新する</button>
                     </form>
                 </div>
             </div>
